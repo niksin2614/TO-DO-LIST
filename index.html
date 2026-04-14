@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Momentum Tasks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="boot-loading" class="boot-loading">
+    <div class="boot-card">
+      <div class="spinner large-spinner" aria-hidden="true"></div>
+      <p class="eyebrow">Connecting</p>
+      <h2>Loading your workspace</h2>
+      <p class="boot-copy">Checking your session and syncing your latest tasks.</p>
+    </div>
+  </div>
+
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">Serverless Firebase To-Do App</p>
+      <h1>Plan with more clarity and finish with less friction.</h1>
+      <p class="hero-copy">
+        Organize tasks by priority and category, track due dates, search faster, and watch everything sync in real time with Firebase Authentication and Cloud Firestore.
+      </p>
+      <div class="hero-badges">
+        <span>Realtime sync</span>
+        <span>Priority + due dates</span>
+        <span>Search + filters</span>
+      </div>
+      <div class="hero-note">
+        <strong>Built for personal focus.</strong>
+        <p>Each account sees only its own tasks, with a lightweight dashboard and dark mode for longer work sessions.</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div id="message" class="message" aria-live="polite"></div>
+
+      <div id="auth-view">
+        <div class="panel-header">
+          <div>
+            <p class="section-kicker">Account</p>
+            <h2 id="auth-title">Welcome back</h2>
+          </div>
+          <div class="auth-toggle" role="tablist" aria-label="Authentication mode">
+            <button id="login-tab" class="tab-button active" type="button">Login</button>
+            <button id="signup-tab" class="tab-button" type="button">Sign Up</button>
+          </div>
+        </div>
+
+        <form id="auth-form" class="stack">
+          <label class="field">
+            <span>Email</span>
+            <input id="email" type="email" placeholder="you@example.com" required>
+          </label>
+
+          <label class="field">
+            <span>Password</span>
+            <input id="password" type="password" placeholder="At least 6 characters" minlength="6" required>
+          </label>
+
+          <button id="auth-submit" class="primary-button" type="submit">
+            <span id="auth-submit-label">Login</span>
+            <span id="auth-submit-spinner" class="button-spinner hidden" aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <p class="auth-note">Use Firebase Authentication with the email/password sign-in provider enabled.</p>
+      </div>
+
+      <div id="app-view" class="hidden">
+        <div class="panel-header panel-header-app">
+          <div>
+            <p class="section-kicker">Your dashboard</p>
+            <h2>Today's tasks</h2>
+            <p id="user-email" class="user-email">-</p>
+          </div>
+
+          <div class="header-actions">
+            <button id="theme-toggle" class="ghost-button" type="button">
+              <span id="theme-toggle-label">Dark Mode</span>
+            </button>
+            <button id="logout-btn" class="ghost-button" type="button">
+              <span id="logout-label">Logout</span>
+              <span id="logout-spinner" class="button-spinner hidden" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+
+        <form id="task-form" class="task-form">
+          <label class="task-field task-field-wide">
+            <span>Task name</span>
+            <input id="task-input" type="text" placeholder="Add a new task..." maxlength="120" required>
+          </label>
+
+          <label class="task-field">
+            <span>Priority</span>
+            <select id="task-priority">
+              <option value="High">High</option>
+              <option value="Medium" selected>Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </label>
+
+          <label class="task-field">
+            <span>Category</span>
+            <select id="task-category">
+              <option value="Work">Work</option>
+              <option value="Study">Study</option>
+              <option value="Personal" selected>Personal</option>
+            </select>
+          </label>
+
+          <label class="task-field">
+            <span>Due date</span>
+            <input id="task-due-date" type="date">
+          </label>
+
+          <button id="task-submit" class="primary-button task-submit-button" type="submit">
+            <span id="task-submit-label">Add Task</span>
+            <span id="task-submit-spinner" class="button-spinner hidden" aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <section class="dashboard" aria-label="Task dashboard">
+          <article class="summary-card summary-card-accent">
+            <span class="summary-label">Total Tasks</span>
+            <strong id="total-count">0</strong>
+          </article>
+          <article class="summary-card">
+            <span class="summary-label">Completed</span>
+            <strong id="completed-count">0</strong>
+          </article>
+          <article class="summary-card">
+            <span class="summary-label">Pending</span>
+            <strong id="pending-count">0</strong>
+          </article>
+        </section>
+
+        <section class="controls-panel" aria-label="Task search and filters">
+          <label class="task-field task-field-search">
+            <span>Search tasks</span>
+            <input id="search-input" type="search" placeholder="Search by task name">
+          </label>
+
+          <div class="filter-group" role="tablist" aria-label="Task filter">
+            <button class="filter-button active" type="button" data-filter="all">All</button>
+            <button class="filter-button" type="button" data-filter="completed">Completed</button>
+            <button class="filter-button" type="button" data-filter="pending">Pending</button>
+          </div>
+        </section>
+
+        <div class="results-bar">
+          <span id="results-summary">Showing 0 tasks</span>
+        </div>
+
+        <div id="list-loading" class="task-loading hidden" aria-live="polite">
+          <span class="spinner" aria-hidden="true"></span>
+          <span>Syncing tasks...</span>
+        </div>
+
+        <ul id="task-skeleton" class="task-list hidden" aria-hidden="true">
+          <li class="task-item skeleton-card">
+            <span class="skeleton-toggle"></span>
+            <div class="skeleton-copy">
+              <span class="skeleton-line long"></span>
+              <span class="skeleton-line medium"></span>
+            </div>
+            <span class="skeleton-button"></span>
+          </li>
+          <li class="task-item skeleton-card">
+            <span class="skeleton-toggle"></span>
+            <div class="skeleton-copy">
+              <span class="skeleton-line long"></span>
+              <span class="skeleton-line short"></span>
+            </div>
+            <span class="skeleton-button"></span>
+          </li>
+        </ul>
+
+        <ul id="task-list" class="task-list" aria-label="Task list"></ul>
+        <p id="empty-state" class="empty-state">No matching tasks yet. Add one to get started.</p>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
